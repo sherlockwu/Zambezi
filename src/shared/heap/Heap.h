@@ -33,6 +33,8 @@ int isFullHeap(Heap* heap) {
   return heap->index >= heap->size - 2;
 }
 
+int deleteMinHeap(Heap* heap);
+
 void insertHeap(Heap* heap, int docid, float score) {
   heap->index++;
   heap->docid[heap->index] = docid;

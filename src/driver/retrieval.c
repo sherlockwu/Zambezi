@@ -49,7 +49,7 @@ int main (int argc, char** args) {
     algorithm = WAND;
   } else {
     printf("Invalid algorithm (Options: SvS | WAND)\n");
-    return;
+    return 0;
   }
 
   // Read the inverted index
@@ -67,6 +67,7 @@ int main (int argc, char** args) {
   char query[1024];
   fscanf(fp, "%d", &totalQueries);
   unsigned int** queries = (unsigned int**) malloc(totalQueries * sizeof(unsigned int*));
+  printf("===get here before reading %d queries !!!!!===\n", totalQueries);
   for(i = 0; i < totalQueries; i++) {
     fscanf(fp, "%d %d", &id, &qlen);
     queries[i] = (unsigned int*) malloc(qlen * sizeof(unsigned int));
@@ -163,6 +164,10 @@ int main (int argc, char** args) {
       for(i = 0; i < hits && set[i] != TERMINAL_DOCID; i++) {
         fprintf(fp, "q: %d no: %u\n", id, set[i]);
       }
+    } else {
+      for(i = 0; i < hits && set[i] != TERMINAL_DOCID; i++) {
+        printf("q: %d no: %u\n", id, set[i]);
+      }
     }
 
     // Free the allocated memory
@@ -177,7 +182,6 @@ int main (int argc, char** args) {
                      (start.tv_sec * 1000000 + start.tv_usec))), qlen);
     fflush(stdout);
   }
-
   if(outputPath) {
     fclose(fp);
   }
@@ -189,6 +193,7 @@ int main (int argc, char** args) {
   free(queries);
   destroyFixedIntCounter(queryLength);
   destroyFixedIntCounter(idToIndexMap);
-  destroyInvertedIndex(index);
+  //[FIXBUG] destroyInvertedIndex(index);
+  
   return 0;
 }
